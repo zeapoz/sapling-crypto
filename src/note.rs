@@ -113,6 +113,15 @@ impl Note {
         Nullifier::derive(nk, self.cm_full_point(), position)
     }
 
+    pub fn nf_hiding(
+        &self,
+        nk: &NullifierDerivingKey,
+        position: u64,
+        personalization: &[u8],
+    ) -> Nullifier {
+        Nullifier::derive_hiding(nk, self.cm_full_point(), position, personalization)
+    }
+
     /// Computes the note commitment
     pub fn cmu(&self) -> ExtractedNoteCommitment {
         self.cm_full_point().into()

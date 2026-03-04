@@ -65,9 +65,18 @@ pub(crate) fn mixing_pedersen_hash(
 ///
 /// [concreteprfs]: https://zips.z.cash/protocol/protocol.pdf#concreteprfs
 pub(crate) fn prf_nf(nk: &jubjub::SubgroupPoint, rho: &jubjub::SubgroupPoint) -> [u8; 32] {
+    prf_nf_hiding(nk, rho, PRF_NF_PERSONALIZATION)
+}
+
+/// prf_nf with custom personalization
+pub(crate) fn prf_nf_hiding(
+    nk: &jubjub::SubgroupPoint,
+    rho: &jubjub::SubgroupPoint,
+    prf_nf_personalization: &[u8],
+) -> [u8; 32] {
     Blake2sParams::new()
         .hash_length(32)
-        .personal(PRF_NF_PERSONALIZATION)
+        .personal(prf_nf_personalization)
         .to_state()
         .update(&nk.to_bytes())
         .update(&rho.to_bytes())

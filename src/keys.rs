@@ -170,7 +170,7 @@ impl SpendValidatingKey {
     }
 
     /// Parses a `SpendValidatingKey` from its encoded form.
-    pub(crate) fn from_bytes(bytes: &[u8]) -> Option<Self> {
+    pub fn from_bytes(bytes: &[u8]) -> Option<Self> {
         <[u8; 32]>::try_from(bytes)
             .ok()
             .and_then(|b| {

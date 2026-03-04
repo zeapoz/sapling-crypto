@@ -7,7 +7,7 @@ use subtle::{Choice, ConstantTimeEq};
 use super::NoteCommitment;
 use crate::{
     keys::NullifierDerivingKey,
-    spec::{mixing_pedersen_hash, prf_nf},
+    spec::{mixing_pedersen_hash, prf_nf, prf_nf_hiding},
 };
 
 /// Typesafe wrapper for nullifier values.
@@ -39,6 +39,17 @@ impl Nullifier {
     pub(super) fn derive(nk: &NullifierDerivingKey, cm: NoteCommitment, position: u64) -> Self {
         let rho = mixing_pedersen_hash(cm.inner(), position);
         Nullifier(prf_nf(&nk.0, &rho))
+    }
+
+    // TODO: add docs
+    pub(super) fn derive_hiding(
+        nk: &NullifierDerivingKey,
+        cm: NoteCommitment,
+        position: u64,
+        personalization: &[u8],
+    ) -> Self {
+        let rho = mixing_pedersen_hash(cm.inner(), position);
+        Nullifier(prf_nf_hiding(&nk.0, &rho, personalization))
     }
 }
 

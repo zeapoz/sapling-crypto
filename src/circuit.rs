@@ -25,9 +25,9 @@ use crate::{value::NoteValue, PaymentAddress, ProofGenerationKey};
 #[cfg(test)]
 use group::ff::PrimeFieldBits;
 
-mod constants;
-mod ecc;
-mod pedersen_hash;
+pub mod constants;
+pub mod ecc;
+pub mod pedersen_hash;
 
 /// The opening (value and randomness) of a Sapling value commitment.
 #[derive(Clone)]
@@ -592,7 +592,7 @@ impl SpendVerifyingKey {
 
 /// The verifying key for the Sapling Spend circuit, with precomputations optimized for
 /// verifying individual proofs.
-pub struct PreparedSpendVerifyingKey(pub(crate) groth16::PreparedVerifyingKey<Bls12>);
+pub struct PreparedSpendVerifyingKey(pub groth16::PreparedVerifyingKey<Bls12>);
 
 /// The parameters for the Sapling Output circuit.
 pub struct OutputParameters(pub(crate) groth16::Parameters<Bls12>);
